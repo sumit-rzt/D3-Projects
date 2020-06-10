@@ -1,0 +1,25 @@
+line {
+    stroke: #000;
+    stroke-width: 1px;
+}
+
+rect {
+    fill: aquamarine;
+}
+
+circle {
+    fill: cadetblue;
+}
+
+svg {
+    border: 2px solid black;
+}
+
+button {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: cornflowerblue;
+    color: #fff;
+    margin-right: 8px;
+}

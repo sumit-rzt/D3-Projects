@@ -5,16 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3 Basics</title>
     <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
-    <style>
-        line {
-            stroke: #000;
-            stroke-width: 1px;
-        }
-
-        rect {
-            fill: red;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="button-container">
@@ -24,6 +15,7 @@
         <button type="button" onclick="drawLine()">Draw Line</button>
         <button type="button" onclick="dragAndDrawRectangle()">Drag and Draw Rectangle</button>
         <button type="button" onclick="dragAndDrawSquare()">Drag and Draw Square</button>
+        <button type="button" onclick="dragAndDrawCircle()">Drag and Draw Circle</button>
     </div>
     <div id="svg-element"/>
     <script>
@@ -183,6 +175,36 @@
                 svg.on('mousemove', null);
             }
 
+        }
+
+        function dragAndDrawCircle() {
+            var svg = d3.select('#svg-element')
+                        .append('svg')
+                        .attr('width', 800)
+                        .attr('height', 800)
+                        .on('mousedown', mousedown)
+                        .on('mouseup', mouseup);
+
+            function mousedown() {
+                var m = d3.mouse(this);
+
+                circle = svg.append('circle')
+                            .attr('cx', m[0])
+                            .attr('cy', m[1])
+                            .attr('r', 0);
+
+                    svg.on('mousemove', mousemove);
+            }
+
+            function mousemove() {
+                var m = d3.mouse(this);
+
+                circle.attr('r', Math.abs(m[0] - circle.attr('cx'))/2);
+            }
+
+            function mouseup() {
+                svg.on('mousemove', null); 
+            }
         }
         
 
