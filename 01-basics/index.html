@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3 Basics</title>
     <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+    <script src = "https://d3js.org/d3-dispatch.v1.min.js"></script>
+    <script src = "https://d3js.org/d3-selection.v1.min.js"></script>
+    <script src = "https://d3js.org/d3-drag.v1.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,6 +19,7 @@
         <button type="button" onclick="dragAndDrawRectangle()">Drag and Draw Rectangle</button>
         <button type="button" onclick="dragAndDrawSquare()">Drag and Draw Square</button>
         <button type="button" onclick="dragAndDrawCircle()">Drag and Draw Circle</button>
+        <button type="button" onclick="dragCircle()">Drag Circle</button>
     </div>
     <div id="svg-element"/>
     <script>
@@ -34,7 +38,7 @@
                     .attr("y", 30)
                     .attr("width", width)
                     .attr('height', height)
-                    .attr('fill', 'red');
+                    .attr('fill', 'red');           
             } else {
                 alert('Width and Height must be a positive value!!!');
             } 
@@ -125,7 +129,8 @@
                     .attr("x", m[0])
                     .attr("y", m[1])
                     .attr("height", 0)
-                    .attr("width", 0);
+                    .attr("width", 0)
+                    .call(dragHandler);
 
                 svg.on("mousemove", mousemove);
             }
@@ -143,6 +148,20 @@
             function mouseup() {
                 svg.on("mousemove", null);
             }
+
+            var dragHandler = d3.drag()
+                                .on("start", function () {
+                                    var current = d3.select(this);
+                                    deltaX = current.attr("x") - d3.event.x;
+                                    deltaY = current.attr("y") - d3.event.y;
+                                })
+                                .on("drag", function () {
+                                    d3.select(this)
+                                        .attr("x", d3.event.x + deltaX)
+                                        .attr("y", d3.event.y + deltaY);
+                });
+
+            dragHandler(svg.selectAll("rect"));
         }
 
         function dragAndDrawSquare() {
@@ -159,7 +178,8 @@
                             .attr('x', m[0])
                             .attr('y', m[1])
                             .attr('width', 0)
-                            .attr('height', 0);
+                            .attr('height', 0)
+                            .call(dragHandler);
                 
                 svg.on('mousemove', mousemove);
             }
@@ -174,6 +194,20 @@
             function mouseup() {
                 svg.on('mousemove', null);
             }
+
+            var dragHandler = d3.drag()
+                                .on('start', function() {
+                                    var current = d3.select(this);
+                                    deltaX = current.attr('x') - d3.event.x;
+                                    deltaY = current.attr('y') - d3.event.y;
+                                })
+                                .on('drag', function() {
+                                    d3.select(this)
+                                        .attr('x', d3.event.x + deltaX)
+                                        .attr('y', d3.event.y + deltaY)
+                                });
+
+                    dragHandler(svg.selectAll('rect'));
 
         }
 
@@ -191,7 +225,8 @@
                 circle = svg.append('circle')
                             .attr('cx', m[0])
                             .attr('cy', m[1])
-                            .attr('r', 0);
+                            .attr('r', 0)
+                            .call(dragHandler);
 
                     svg.on('mousemove', mousemove);
             }
@@ -206,7 +241,20 @@
                 svg.on('mousemove', null); 
             }
         }
-        
+
+        var dragHandler = d3.drag()
+                                .on("start", function () {
+                                    var current = d3.select(this);
+                                    deltaX = current.attr("cx") - d3.event.x;
+                                    deltaY = current.attr("cy") - d3.event.y;
+                                })
+                                .on("drag", function () {
+                                    d3.select(this)
+                                        .attr("cx", d3.event.x + deltaX)
+                                        .attr("cy", d3.event.y + deltaY);
+                });
+
+            dragHandler(svg.selectAll("circle"));
 
     </script>
 </body>
