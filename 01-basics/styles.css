@@ -19,7 +19,8 @@ button {
     padding: 10px;
     border-radius: 4px;
     font-size: 12px;
-    background-color: cornflowerblue;
+    background-color: #007bfe;
     color: #fff;
     margin: 8px;
+    cursor: pointer;
 }
